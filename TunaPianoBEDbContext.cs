@@ -96,7 +96,8 @@ namespace TunaPianoBE
                     Title = "Not Enough Jazz",
                     ArtistId = 4,
                     Album = "More Jazz",
-                    Length = 360
+                    Length = 360,
+                    GenreId = 4
                 },
                 new Song
                 {
@@ -104,7 +105,8 @@ namespace TunaPianoBE
                     Title = "Lounge Shimmer",
                     ArtistId = 4,
                     Album = "More Jazz",
-                    Length = 333
+                    Length = 333,
+                    GenreId = 4
                 },
                 new Song
                 {
@@ -112,7 +114,8 @@ namespace TunaPianoBE
                     Title = "Big Name",
                     ArtistId = 3,
                     Album = "Self-Titled",
-                    Length = 237
+                    Length = 237,
+                    GenreId = 2
                 },
                 new Song
                 {
@@ -120,7 +123,8 @@ namespace TunaPianoBE
                     Title = "Daybreak",
                     ArtistId = 2,
                     Album = "Not Quite Yet",
-                    Length = 226
+                    Length = 226,
+                    GenreId = 5
                 },
                 new Song
                 {
@@ -128,7 +132,8 @@ namespace TunaPianoBE
                     Title = "All In Time",
                     ArtistId = 1,
                     Album = "The Days Ahead",
-                    Length = 222
+                    Length = 222,
+                    GenreId = 2
                 }
             });
         }
