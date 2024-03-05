@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.Json;
 using TunaPianoBE;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddNpgsql<TunaPianoBEDbContext>(builder.Configuration["TunaPianoBEDbConnectionString"]);
@@ -23,6 +24,49 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//SONGS
+
+//Post new song
+app.MapPost("/songs/new", (TunaPianoBEDbContext db, Song song) =>
+{
+    db.Songs.Add(song);
+    db.SaveChanges();
+    return Results.Created($"/song/new/{song.Id}", song);
+});
+
+//Get all songs
+app.MapGet("/songs", (TunaPianoBEDbContext db) =>
+{
+    var songs = db.Songs.ToList();
+
+    if (songs == null)
+    {
+        return Results.NotFound("No songs found.");
+    }
+    return Results.Ok(songs);
+});
+
+//Get single song
+app.MapGet("/songs/{id}", (TunaPianoBEDbContext db, int id) =>
+{
+    return db.Songs.Where(s => s.Id == id).Include(s => s.Genre).Include(s => s.Artist);
+});
+
+//Delete song
+app.MapDelete("/songs/{id}", (TunaPianoBEDbContext db, int id) =>
+{
+    var songToDelete = db.Songs.SingleOrDefault(s => s.Id == id);
+
+    if (songToDelete == null)
+    {
+        return Results.NotFound("No song found with that Id.");
+    }
+    db.Songs.Remove(songToDelete);
+    db.SaveChanges();
+    return Results.Ok("Song deleted.");
+});
+
 
 
 app.Run();
