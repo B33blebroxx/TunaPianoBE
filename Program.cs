@@ -112,13 +112,27 @@ app.MapPost("/artists", (TunaPianoBEDbContext db, Artist newArtist) =>
 //Get all artists
 app.MapGet("/artists", (TunaPianoBEDbContext db) =>
 {
-    var allArtists = db.Artists.Include(a => a.Songs).ToList();
+    var allArtists = db.Artists.Include(a => a.Song).ToList();
 
     if (allArtists == null)
     {
         return Results.NotFound("Error, no artists found!");
     }
     return Results.Ok(allArtists);
+});
+
+//Delete an artist
+app.MapDelete("/artists", (TunaPianoBEDbContext db, int artistId) =>
+{
+    var artistToDelete = db.Artists.SingleOrDefault(a => a.Id == artistId);
+
+    if (artistToDelete == null)
+    {
+        return Results.NotFound("No artist with that Id");
+    }
+    db.Artists.Remove(artistToDelete);
+    db.SaveChanges();
+    return Results.NoContent();
 });
 
 
