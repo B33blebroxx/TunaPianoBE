@@ -135,6 +135,21 @@ app.MapDelete("/artists", (TunaPianoBEDbContext db, int artistId) =>
     return Results.NoContent();
 });
 
+//Update an artist
+app.MapPut("/artists/{id}", (TunaPianoBEDbContext db, int id, Artist artist) =>
+{
+    var artistToUpdate = db.Artists.SingleOrDefault(a => a.Id == id);
+    if (artistToUpdate == null)
+    {
+        return Results.NotFound("No song with that id.");
+    }
+    artistToUpdate.Name = artist.Name;
+    artistToUpdate.Age = artist.Age;
+    artistToUpdate.Bio = artist.Bio;
+
+    db.SaveChanges();
+    return Results.Ok("Artist updated");
+});
 
 
 
