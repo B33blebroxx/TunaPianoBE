@@ -87,19 +87,6 @@ app.MapPut("/songs/{id}", (TunaPianoBEDbContext db, int id, Song song) =>
     return Results.Ok("Song updated");
 });
 
-//Search/filter songs by genreId (stretch)
-app.MapGet("/songs/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
-{
-    var songsOfGenreType = db.Songs.Where(s => s.GenreId == genreId)
-                                   .ToList();
-
-    if (songsOfGenreType == null)
-    {
-        return Results.NotFound("No songs matching that genre.");
-    }
-    return Results.Ok(songsOfGenreType);
-});
-
 
 //ARTISTS
 
@@ -180,7 +167,7 @@ app.MapPost("/genres", (TunaPianoBEDbContext db, Genre genre) =>
 //Get all genres
 app.MapGet("/genres", (TunaPianoBEDbContext db) =>
 {
-    var allGenres = db.Genres.Include(g => g.Song).ToList();
+    var allGenres = db.Genres.ToList();
     if (allGenres == null)
     {
         return Results.NotFound("No genres found.");
@@ -219,7 +206,8 @@ app.MapPost("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId, Genre ge
 //Get single genre
 app.MapGet("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
 {
-    var genre = db.Genres.Include(g => g.Song).SingleOrDefault(g => g.Id == genreId);
+    var genre = db.Genres.Include(g => g.Song)
+                         .SingleOrDefault(g => g.Id == genreId);
     if (genre == null)
     {
         return Results.NotFound("No genre with that Id.");
@@ -227,6 +215,45 @@ app.MapGet("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
     return Results.Ok(genre);
 });
 
+
+//STRETCH
+
+//Search/filter songs by genreId
+app.MapGet("/songs/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
+{
+    var songsOfGenreType = db.Songs.Where(s => s.GenreId == genreId)
+                                   .Include(s => s.Genre)
+                                   .ToList();
+
+    if (songsOfGenreType == null)
+    {
+        return Results.NotFound("No songs matching that genre.");
+    }
+    return Results.Ok(songsOfGenreType);
+});
+
+//Search/filter artists by genre
+app.MapGet("/artists/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
+{
+    var artists = db.Artists.Where(a => a.GenreId == genreId)
+                            .Include(a => a.Song);
+});
+
+// Get most popular genres by order of most to least songs
+app.MapGet("/genres/mostrelated", (TunaPianoBEDbContext db) =>
+{
+    var mostPopularGenres = db.Genres
+        .Include(s => s.Song)
+        .OrderByDescending(g => g.Song.Count)
+        .ToList();
+
+    if (mostPopularGenres == null)
+    {
+        return Results.NotFound("No genres found.");
+    }
+
+    return Results.Ok(mostPopularGenres);
+});
 
 
 app.Run();

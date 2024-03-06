@@ -24,7 +24,8 @@ namespace TunaPianoBE
                     Name = "Obie Jessett",
                     Age = 32,
                     Bio = "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
-                    Song_Count = 40
+                    Song_Count = 40,
+                    GenreId = 2
                 },
                 new Artist
                 {
@@ -32,7 +33,8 @@ namespace TunaPianoBE
                     Name = "Aurora Northall",
                     Age = 21,
                     Bio = "Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
-                    Song_Count = 11
+                    Song_Count = 11,
+                    GenreId = 5
                 },
                 new Artist
                 {
@@ -40,7 +42,8 @@ namespace TunaPianoBE
                     Name = "Big Name J",
                     Age = 26,
                     Bio = "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\n\nIn congue. Etiam justo. Etiam pretium iaculis justo.",
-                    Song_Count = 26
+                    Song_Count = 26,
+                    GenreId = 2
                 },
                 new Artist
                 {
@@ -48,14 +51,17 @@ namespace TunaPianoBE
                     Name = "Stella",
                     Age = 35,
                     Bio = "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
-                    Song_Count = 101
+                    Song_Count = 101,
+                    GenreId = 4
                 },
                 new Artist
                 {
                     Id = 5,
                     Name = "Carri Key",
                     Age = 27,
-                    Bio = "Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem."
+                    Bio = "Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.",
+                    Song_Count = 60,
+                    GenreId = 1
                 }
             });
 
