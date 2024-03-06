@@ -188,6 +188,18 @@ app.MapGet("/genres", (TunaPianoBEDbContext db) =>
     return Results.Ok(allGenres);
 });
 
+//Delete a genre
+app.MapDelete("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
+{
+    var genreToDelete = db.Genres.FirstOrDefault(g => g.Id == genreId);
+    if (genreToDelete == null)
+    {
+        return Results.NotFound("No genre with that Id.");
+    }
+    db.Genres.Remove(genreToDelete);
+    db.SaveChanges();
+    return Results.NoContent();
+});
 
 app.Run();
 
