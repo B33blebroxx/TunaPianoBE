@@ -167,6 +167,16 @@ app.MapGet("/artist/{artistId}", (TunaPianoBEDbContext db, int artistId) =>
 });
 
 
+//GENRES
+
+//Create genre
+app.MapPost("/genres", (TunaPianoBEDbContext db, Genre genre) =>
+{
+    db.Genres.Add(genre);
+    db.SaveChanges();
+    return Results.Created($"/genres/{genre.Id}", genre);
+});
+
 
 app.Run();
 
