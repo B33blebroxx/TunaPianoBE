@@ -177,6 +177,17 @@ app.MapPost("/genres", (TunaPianoBEDbContext db, Genre genre) =>
     return Results.Created($"/genres/{genre.Id}", genre);
 });
 
+//Get all genres
+app.MapGet("/genres", (TunaPianoBEDbContext db) =>
+{
+    var allGenres = db.Genres.Include(g => g.Song).ToList();
+    if (allGenres == null)
+    {
+        return Results.NotFound("No genres found.");
+    }
+    return Results.Ok(allGenres);
+});
+
 
 app.Run();
 
