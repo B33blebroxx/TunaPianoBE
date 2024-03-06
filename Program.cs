@@ -109,6 +109,18 @@ app.MapPost("/artists", (TunaPianoBEDbContext db, Artist newArtist) =>
     return Results.Created($"/artists/{newArtist.Id}", newArtist);
 });
 
+//Get all artists
+app.MapGet("/artists", (TunaPianoBEDbContext db) =>
+{
+    var allArtists = db.Artists.Include(a => a.Songs).ToList();
+
+    if (allArtists == null)
+    {
+        return Results.NotFound("Error, no artists found!");
+    }
+    return Results.Ok(allArtists);
+});
+
 
 
 
