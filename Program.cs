@@ -201,5 +201,22 @@ app.MapDelete("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
     return Results.NoContent();
 });
 
+//Edit a genre
+app.MapPost("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId, Genre genre) =>
+{
+    var genreToUpdate = db.Genres.SingleOrDefault(g => g.Id == genreId);
+    if (genreToUpdate == null)
+    {
+        return Results.NotFound("No genre with that Id.");
+    }
+
+    genreToUpdate.Description = genre.Description;
+
+    db.SaveChanges();
+    return Results.Ok("Genre updated.");
+});
+
+
+
 app.Run();
 
