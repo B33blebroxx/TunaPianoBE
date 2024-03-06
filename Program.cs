@@ -85,6 +85,18 @@ app.MapPut("/songs/{id}", (TunaPianoBEDbContext db, int id, Song song) =>
     return Results.Ok("Song updated");
 });
 
+//Search/filter songs by genreId
+app.MapGet("/songs/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
+{
+    var songsOfGenreType = db.Songs.Where(s => s.GenreId == genreId)
+    .ToList();
+
+    if (songsOfGenreType == null)
+    {
+        return Results.NotFound("No songs matching that genre.");
+    }
+    return Results.Ok(songsOfGenreType);
+});
 
 
 app.Run();
