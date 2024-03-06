@@ -28,11 +28,11 @@ app.UseHttpsRedirection();
 //SONGS
 
 //Post new song
-app.MapPost("/songs", (TunaPianoBEDbContext db, Song song) =>
+app.MapPost("/songs", (TunaPianoBEDbContext db, Song newSong) =>
 {
-    db.Songs.Add(song);
+    db.Songs.Add(newSong);
     db.SaveChanges();
-    return Results.Created($"/song/new/{song.Id}", song);
+    return Results.Created($"/songs/{newSong.Id}", newSong);
 });
 
 //Get all songs
@@ -85,7 +85,7 @@ app.MapPut("/songs/{id}", (TunaPianoBEDbContext db, int id, Song song) =>
     return Results.Ok("Song updated");
 });
 
-//Search/filter songs by genreId
+//Search/filter songs by genreId (stretch)
 app.MapGet("/songs/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
 {
     var songsOfGenreType = db.Songs.Where(s => s.GenreId == genreId)
@@ -97,6 +97,19 @@ app.MapGet("/songs/genre/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
     }
     return Results.Ok(songsOfGenreType);
 });
+
+
+//ARTISTS
+
+//Create an Artists
+app.MapPost("/artists", (TunaPianoBEDbContext db, Artist newArtist) =>
+{
+    db.Artists.Add(newArtist);
+    db.SaveChanges();
+    return Results.Created($"/artists/{newArtist.Id}", newArtist);
+});
+
+
 
 
 app.Run();
