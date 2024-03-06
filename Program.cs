@@ -216,6 +216,17 @@ app.MapPost("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId, Genre ge
     return Results.Ok("Genre updated.");
 });
 
+//Get single genre
+app.MapGet("/genres/{genreId}", (TunaPianoBEDbContext db, int genreId) =>
+{
+    var genre = db.Genres.Include(g => g.Song).SingleOrDefault(g => g.Id == genreId);
+    if (genre == null)
+    {
+        return Results.NotFound("No genre with that Id.");
+    }
+    return Results.Ok(genre);
+});
+
 
 
 app.Run();
